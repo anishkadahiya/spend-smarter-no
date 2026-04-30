@@ -1,0 +1,144 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8"/>
+<meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+<title>Dashboard — SpendSmart</title>
+<link href="https://fonts.googleapis.com/css2?family=Fraunces:ital,opsz,wght@0,9..144,300;0,9..144,600;0,9..144,700;1,9..144,300;1,9..144,600&family=DM+Sans:wght@300;400;500;600&display=swap" rel="stylesheet"/>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/Chart.js/4.4.1/chart.umd.min.js"></script>
+<link rel="stylesheet" href="styles.css"/>
+</head>
+<body>
+
+<!-- ════════════════ NAVBAR ════════════════ -->
+<nav>
+  <a href="index.html" class="nav-logo">Spend<em>Smart</em></a>
+  <ul class="nav-links">
+    <li><a href="index.html">Home</a></li>
+    <li><a href="dashboard.html" class="nav-active">Dashboard</a></li>
+    <li><a href="budget.html">Budget</a></li>
+  </ul>
+  <div class="nav-right">
+    <button class="theme-toggle" id="theme-toggle" title="Toggle dark/light mode">🌙</button>
+    <a href="budget.html" class="nav-cta">View Budget →</a>
+  </div>
+</nav>
+
+<!-- ════════════════ DASHBOARD SECTION ════════════════ -->
+<section id="app-section" style="padding:60px 5% 80px; max-width:1400px; margin:0 auto;">
+
+  <div style="margin-bottom:2rem;">
+    <div class="section-label">Live Dashboard</div>
+    <h2 class="section-title">Your Expense Tracker</h2>
+    <p class="section-sub">Add expenses, set your monthly budget, and visualise your spending — all data saved locally in your browser.</p>
+  </div>
+
+  <!-- STAT CARDS -->
+  <div class="stat-cards">
+    <div class="stat-card" data-e="💰"><div class="sc-val" id="s-total" style="color:var(--coral)">₹0</div><div class="sc-label">Total Spent</div></div>
+    <div class="stat-card" data-e="📅"><div class="sc-val" id="s-avg"   style="color:var(--sky)">₹0</div><div class="sc-label">Daily Average</div></div>
+    <div class="stat-card" data-e="🏆"><div class="sc-val" id="s-top"   style="color:var(--peach)">—</div><div class="sc-label">Top Category</div></div>
+  </div>
+
+  <div class="dashboard">
+
+    <!-- LEFT: ADD FORM + MONTHLY BUDGET -->
+    <div style="display:flex;flex-direction:column;gap:1.4rem;">
+
+      <!-- ADD EXPENSE -->
+      <div class="panel">
+        <div class="panel-title">Add New Expense</div>
+        <label class="form-label">Category</label>
+        <div class="cat-chips" id="cat-chips">
+          <div class="chip active" data-cat="Food"      onclick="selCat(this)">🍜 Food</div>
+          <div class="chip" data-cat="Travel"    onclick="selCat(this)">🚌 Travel</div>
+          <div class="chip" data-cat="Shopping"  onclick="selCat(this)">🛒 Shopping</div>
+          <div class="chip" data-cat="Bills"     onclick="selCat(this)">💡 Bills</div>
+          <div class="chip" data-cat="Health"    onclick="selCat(this)">💊 Health</div>
+          <div class="chip" data-cat="Fun"       onclick="selCat(this)">🎮 Fun</div>
+          <div class="chip" data-cat="Education" onclick="selCat(this)">📚 Education</div>
+          <div class="chip" data-cat="Other"     onclick="selCat(this)">📦 Other</div>
+        </div>
+        <label class="form-label">Description</label>
+        <input class="form-input" type="text" id="f-desc" placeholder="e.g. Canteen lunch, Metro pass…"/>
+        <div class="form-row">
+          <div>
+            <label class="form-label">Amount (₹)</label>
+            <input class="form-input" type="number" id="f-amt" placeholder="0" min="0"/>
+          </div>
+          <div>
+            <label class="form-label">Date</label>
+            <input class="form-input" type="date" id="f-date"/>
+          </div>
+        </div>
+        <button class="btn-submit" onclick="addExpense()">+ Add Expense</button>
+      </div>
+
+      <!-- MONTHLY BUDGET -->
+      <div class="panel">
+        <div class="panel-title">Monthly Budget</div>
+        <div class="ob-row">
+          <input class="form-input" type="number" id="ob-input" placeholder="₹ Set monthly budget" min="0"/>
+          <button class="btn-set" onclick="setOB()">Set</button>
+        </div>
+        <div class="bar-hdr"><span id="ob-used">₹0 used</span><span id="ob-pct">0%</span></div>
+        <div class="bar-bg-wrap">
+          <div class="bar-bg">
+            <div class="bar-fill" id="ob-bar" style="width:0%"></div>
+          </div>
+          <div class="budget-limit-line hidden" id="budget-limit-line"></div>
+        </div>
+        <div class="bar-foot"><span id="ob-left">No budget set</span><span id="ob-status"></span></div>
+        <div style="margin-top:14px; padding-top:14px; border-top:1px solid var(--border); text-align:center;">
+          <a href="budget.html" style="font-size:0.78rem;color:var(--coral);font-weight:700;text-decoration:none;">View Full Budget Breakdown →</a>
+        </div>
+      </div>
+
+    </div>
+
+    <!-- RIGHT -->
+    <div class="right-col">
+
+      <!-- CATEGORY CARDS + CHARTS -->
+      <div class="panel">
+        <div class="panel-title">Spending by Category</div>
+        <div class="cat-grid" id="cat-grid"></div>
+        <div class="charts-row">
+          <div class="panel" style="padding:16px;">
+            <div style="font-size:0.72rem;font-weight:700;text-transform:uppercase;color:var(--muted);margin-bottom:10px;">Category Share</div>
+            <div class="chart-wrap"><canvas id="donut-chart"></canvas></div>
+          </div>
+          <div class="panel" style="padding:16px;">
+            <div style="font-size:0.72rem;font-weight:700;text-transform:uppercase;color:var(--muted);margin-bottom:10px;">Daily (7 days)</div>
+            <div class="chart-wrap"><canvas id="bar-chart"></canvas></div>
+          </div>
+        </div>
+      </div>
+
+      <!-- RECENT EXPENSES -->
+      <div class="panel">
+        <div style="display:flex;justify-content:space-between;align-items:center;margin-bottom:1.2rem;">
+          <div class="panel-title" style="margin-bottom:0;">Recent Transactions</div>
+          <button onclick="clearAll()" style="font-size:0.75rem;color:var(--muted);background:none;border:none;cursor:pointer;font-weight:600;">Clear All</button>
+        </div>
+        <div class="exp-list" id="exp-list">
+          <div class="empty-state"><span>💸</span>No expenses yet — add your first above!</div>
+        </div>
+      </div>
+
+    </div>
+  </div>
+</section>
+
+<!-- ════════════════ FOOTER ════════════════ -->
+<footer>
+  <strong>Spend<em>Smart</em></strong> — BTech CSE 1st Year Case Study &nbsp;·&nbsp;
+  Built with HTML5 · CSS3 · JavaScript · Python · C &nbsp;·&nbsp;
+  All data stored locally in your browser · No server required
+</footer>
+
+<div class="toast" id="toast"></div>
+<script src="shared.js"></script>
+<script src="dashboard.js"></script>
+</body>
+</html>

@@ -1,0 +1,173 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8"/>
+<meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+<title>Budget — SpendSmart</title>
+<link href="https://fonts.googleapis.com/css2?family=Fraunces:ital,opsz,wght@0,9..144,300;0,9..144,600;0,9..144,700;1,9..144,300;1,9..144,600&family=DM+Sans:wght@300;400;500;600&display=swap" rel="stylesheet"/>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/Chart.js/4.4.1/chart.umd.min.js"></script>
+<link rel="stylesheet" href="styles.css"/>
+</head>
+<body>
+
+<!-- ════════════════ NAVBAR ════════════════ -->
+<nav>
+  <a href="index.html" class="nav-logo">Spend<em>Smart</em></a>
+  <ul class="nav-links">
+    <li><a href="index.html">Home</a></li>
+    <li><a href="dashboard.html">Dashboard</a></li>
+    <li><a href="budget.html" class="nav-active">Budget</a></li>
+  </ul>
+  <div class="nav-right">
+    <button class="theme-toggle" id="theme-toggle" title="Toggle dark/light mode">🌙</button>
+    <a href="dashboard.html" class="nav-cta">Add Expense →</a>
+  </div>
+</nav>
+
+<!-- ════════════════ BUDGET HERO STRIP ════════════════ -->
+<div class="budget-page-header">
+  <div style="max-width:1400px;margin:0 auto;padding:0 5%;">
+    <div class="section-label" style="color:var(--amber);">Budget Manager</div>
+    <h2 class="section-title" style="color:#fff;">Monthly Overview</h2>
+    <p class="section-sub" style="color:rgba(255,255,255,0.65);">See how your spending is distributed across all categories this month and track progress against your overall budget.</p>
+
+    <!-- TOP SUMMARY CARDS -->
+    <div class="budget-summary-row">
+      <div class="bs-card">
+        <div class="bs-icon">💰</div>
+        <div>
+          <div class="bs-label">Total Spent</div>
+          <div class="bs-val" id="b-total">₹0</div>
+        </div>
+      </div>
+      <div class="bs-card">
+        <div class="bs-icon">🎯</div>
+        <div>
+          <div class="bs-label">Monthly Budget</div>
+          <div class="bs-val" id="b-budget">Not set</div>
+        </div>
+      </div>
+      <div class="bs-card">
+        <div class="bs-icon">🟢</div>
+        <div>
+          <div class="bs-label">Remaining</div>
+          <div class="bs-val" id="b-remaining">—</div>
+        </div>
+      </div>
+      <div class="bs-card">
+        <div class="bs-icon">📅</div>
+        <div>
+          <div class="bs-label">Days Left in Month</div>
+          <div class="bs-val" id="b-days">—</div>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
+
+<!-- ════════════════ BUDGET CONTENT ════════════════ -->
+<section style="padding:60px 5% 80px; max-width:1400px; margin:0 auto;">
+
+  <!-- MONTHLY BUDGET SET ROW -->
+  <div class="panel" style="margin-bottom:2rem; display:flex; align-items:center; gap:1.5rem; flex-wrap:wrap;">
+    <div style="flex:1; min-width:220px;">
+      <div class="panel-title" style="margin-bottom:0.6rem;">Set / Update Monthly Budget</div>
+      <p style="font-size:0.82rem;color:var(--muted);">This applies across all categories. Shared with the Dashboard.</p>
+    </div>
+    <div style="display:flex;gap:10px;align-items:center;">
+      <input class="form-input" type="number" id="ob-input" placeholder="₹ Monthly budget" min="0" style="margin-bottom:0;width:200px;"/>
+      <button class="btn-set" onclick="setOB()">Set Budget</button>
+    </div>
+    <div style="min-width:240px;">
+      <div class="bar-hdr"><span id="ob-used">₹0 used</span><span id="ob-pct">0%</span></div>
+      <div class="bar-bg-wrap">
+        <div class="bar-bg"><div class="bar-fill" id="ob-bar" style="width:0%"></div></div>
+        <div class="budget-limit-line hidden" id="budget-limit-line"></div>
+      </div>
+      <div class="bar-foot"><span id="ob-left">No budget set</span><span id="ob-status"></span></div>
+    </div>
+  </div>
+
+  <!-- TWO-COLUMN LAYOUT -->
+  <div class="budget-page-grid">
+
+    <!-- LEFT: CATEGORY BREAKDOWN -->
+    <div>
+      <div class="panel-title" style="font-size:0.72rem;font-weight:700;text-transform:uppercase;letter-spacing:0.1em;color:var(--muted);margin-bottom:1rem;display:flex;align-items:center;gap:6px;">
+        <span style="width:8px;height:8px;border-radius:50%;background:var(--coral);display:inline-block;"></span>
+        Monthly Category Breakdown
+      </div>
+      <div class="budget-grid" id="budget-grid"></div>
+    </div>
+
+    <!-- RIGHT: CHARTS + TIPS -->
+    <div style="display:flex;flex-direction:column;gap:1.5rem;">
+
+      <!-- Spending Pie -->
+      <div class="panel">
+        <div class="panel-title">Spending Distribution</div>
+        <div style="height:260px;position:relative;">
+          <canvas id="budget-donut"></canvas>
+        </div>
+      </div>
+
+      <!-- 50/30/20 Tip Card -->
+      <div class="panel tip-card">
+        <div class="tip-header">
+          <span style="font-size:1.4rem;">💡</span>
+          <div>
+            <div style="font-weight:700;font-size:0.95rem;">The 50/30/20 Framework</div>
+            <div style="font-size:0.75rem;color:var(--muted);margin-top:2px;">A simple way to distribute your money</div>
+          </div>
+        </div>
+        <div class="tip-bars">
+          <div class="tip-row">
+            <span class="tip-pct" style="color:var(--coral);">50%</span>
+            <div class="tip-info">
+              <strong>Needs</strong>
+              <span>Food, Bills, Health, Education</span>
+            </div>
+            <div class="tip-bar-bg"><div class="tip-bar-fill" style="width:50%;background:var(--coral-l);border:1.5px solid var(--coral);"></div></div>
+          </div>
+          <div class="tip-row">
+            <span class="tip-pct" style="color:var(--peach);">30%</span>
+            <div class="tip-info">
+              <strong>Wants</strong>
+              <span>Shopping, Fun, Travel</span>
+            </div>
+            <div class="tip-bar-bg"><div class="tip-bar-fill" style="width:30%;background:var(--peach-l);border:1.5px solid var(--peach);"></div></div>
+          </div>
+          <div class="tip-row">
+            <span class="tip-pct" style="color:var(--sage);">20%</span>
+            <div class="tip-info">
+              <strong>Savings</strong>
+              <span>Emergency Fund, Future Goals</span>
+            </div>
+            <div class="tip-bar-bg"><div class="tip-bar-fill" style="width:20%;background:var(--sage-l);border:1.5px solid var(--sage);"></div></div>
+          </div>
+        </div>
+      </div>
+
+      <!-- Quote Card -->
+      <div class="quote-card">
+        <div class="quote-mark">"</div>
+        <p class="quote-text">Do not save what is left after spending, but spend what is left after saving.</p>
+        <div class="quote-author">— WARREN BUFFETT</div>
+      </div>
+
+    </div>
+  </div>
+</section>
+
+<!-- ════════════════ FOOTER ════════════════ -->
+<footer>
+  <strong>Spend<em>Smart</em></strong> — BTech CSE 1st Year Case Study &nbsp;·&nbsp;
+  Built with HTML5 · CSS3 · JavaScript · Python · C &nbsp;·&nbsp;
+  All data stored locally in your browser · No server required
+</footer>
+
+<div class="toast" id="toast"></div>
+<script src="shared.js"></script>
+<script src="budget.js"></script>
+</body>
+</html>

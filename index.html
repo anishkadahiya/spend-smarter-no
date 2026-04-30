@@ -1,0 +1,150 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8"/>
+<meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+<title>SpendSmart — Student Expense Tracker</title>
+<link href="https://fonts.googleapis.com/css2?family=Fraunces:ital,opsz,wght@0,9..144,300;0,9..144,600;0,9..144,700;1,9..144,300;1,9..144,600&family=DM+Sans:wght@300;400;500;600&display=swap" rel="stylesheet"/>
+<link rel="stylesheet" href="styles.css"/>
+</head>
+<body>
+
+<!-- ════════════════ NAVBAR ════════════════ -->
+<nav>
+  <a href="index.html" class="nav-logo">Spend<em>Smart</em></a>
+  <ul class="nav-links">
+    <li><a href="index.html" class="nav-active">Home</a></li>
+    <li><a href="dashboard.html">Dashboard</a></li>
+    <li><a href="budget.html">Budget</a></li>
+  </ul>
+  <div class="nav-right">
+    <button class="theme-toggle" id="theme-toggle" title="Toggle dark/light mode">🌙</button>
+    <a href="dashboard.html" class="nav-cta">Start Tracking →</a>
+  </div>
+</nav>
+
+<!-- ════════════════ HERO ════════════════ -->
+<section style="background:var(--bg); overflow:hidden;">
+  <div class="hero">
+    <div class="hero-left">
+      <h1>Track every rupee,<br/><em>spend smarter</em></h1>
+      <p>SpendSmart helps college students manage daily expenses, set a monthly budget, and visualise spending across categories — all in one beautiful dashboard.</p>
+      <div class="hero-btns">
+        <a href="dashboard.html" class="btn-primary">Start Tracking Free →</a>
+        <a href="#features-section" class="btn-outline">View Features</a>
+      </div>
+    </div>
+    <div class="hero-visual">
+      <div class="float-badge b1">
+        <div class="fb-icon">🎯</div>
+        <div><div class="fb-label">Budget used</div><div class="fb-val">72% this month</div></div>
+      </div>
+      <div class="float-badge b2">
+        <div class="fb-icon">📊</div>
+        <div><div class="fb-label">Top Category</div><div class="fb-val">Food ₹4,200</div></div>
+      </div>
+      <div class="hero-card">
+        <div class="hc-header">
+          <div class="hc-header-top">
+            <div>
+              <div class="hc-label">Total Expenses</div>
+              <div class="hc-amount">₹ 14,280</div>
+            </div>
+            <div style="font-size:1.5rem;">📊</div>
+          </div>
+          <div class="hc-stats">
+            <div class="hc-stat"><div class="hc-stat-l">Monthly Budget</div><div class="hc-stat-v">₹ 20,000</div></div>
+            <div class="hc-stat"><div class="hc-stat-l">Balance Left</div><div class="hc-stat-v">₹ 5,720</div></div>
+          </div>
+        </div>
+        <div class="hc-body">
+          <div class="hc-cats">
+            <div class="hc-cat"><div>🍜</div><div class="hc-cat-name">Food</div><div class="hc-cat-amt">₹4.2k</div></div>
+            <div class="hc-cat"><div>🚌</div><div class="hc-cat-name">Travel</div><div class="hc-cat-amt">₹1.8k</div></div>
+            <div class="hc-cat"><div>📚</div><div class="hc-cat-name">Education</div><div class="hc-cat-amt">₹3.5k</div></div>
+            <div class="hc-cat"><div>🎮</div><div class="hc-cat-name">Fun</div><div class="hc-cat-amt">₹2.1k</div></div>
+          </div>
+          <div>
+            <div class="hc-bar-label" style="margin-bottom:4px;"><span>Budget Progress</span><span>72%</span></div>
+            <div class="hc-bar-bg"><div class="hc-bar-fill" style="width:72%"></div></div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- ════════════════ STATS STRIP ════════════════ -->
+<div class="stats-strip reveal">
+  <div class="stat-item"><div class="stat-num">8</div><div class="stat-label">Expense Categories</div></div>
+  <div class="stat-item"><div class="stat-num">50/30/20</div><div class="stat-label">Budget Framework</div></div>
+  <div class="stat-item"><div class="stat-num">3</div><div class="stat-label">Languages Used</div></div>
+  <div class="stat-item"><div class="stat-num">∞</div><div class="stat-label">Expenses you can track</div></div>
+</div>
+
+<!-- ════════════════ FEATURES ════════════════ -->
+<section id="features-section" style="padding:80px 5%;">
+  <div style="max-width:1400px;margin:0 auto;">
+    <div class="reveal">
+      <div class="section-label">Why SpendSmart</div>
+      <h2 class="section-title">Everything a student needs</h2>
+      <p class="section-sub">Built specifically for BTech students managing pocket money, hostel expenses, and monthly budgets.</p>
+    </div>
+    <div class="features-grid reveal">
+
+      <div class="feature-card">
+        <div class="feature-icon">🎯</div>
+        <div class="feature-title">Monthly Budget Alerts</div>
+        <div class="feature-desc">Follow the <strong>50/30/20 rule</strong> — allocate 50% to Needs, 30% to Wants, and 20% to Savings. Set your monthly budget and SpendSmart warns you before you overspend.</div>
+      </div>
+
+      <div class="feature-card">
+        <div class="feature-icon">📊</div>
+        <div class="feature-title">Visual Analytics</div>
+        <div class="feature-desc">See exactly where your money goes with a category doughnut chart and a 7-day bar chart. Spot overspending on Dining, Hobbies, or Subscriptions before it becomes a habit.</div>
+      </div>
+
+      <div class="feature-card">
+        <div class="feature-icon">💡</div>
+        <div class="feature-title">Pay Yourself First</div>
+        <div class="feature-desc">Move a fixed amount into savings the day you receive pocket money — before spending anything else. SpendSmart tracks what's left so you always stick to the plan.</div>
+      </div>
+
+      <div class="feature-card">
+        <div class="feature-icon">🗂️</div>
+        <div class="feature-title">8 Smart Categories</div>
+        <div class="feature-desc">Covers every student spending bucket — Food, Bills, Health, Fun, and more. Categorise every rupee and instantly see which habits are draining your wallet.</div>
+      </div>
+
+      <div class="feature-card">
+        <div class="feature-icon">🛡️</div>
+        <div class="feature-title">Build an Iron Shield</div>
+        <div class="feature-desc">Aim to save 3–6 months of basic living expenses as an emergency fund. Use SpendSmart's monthly overview to find where you can cut back and save more each month.</div>
+      </div>
+
+      <div class="feature-card">
+        <div class="feature-icon">⏳</div>
+        <div class="feature-title">The 24-Hour Rule</div>
+        <div class="feature-desc">Before logging a big purchase in Shopping or Fun, pause for 24 hours. If you still want it tomorrow, it's worth it. SpendSmart keeps you honest and impulse-proof.</div>
+      </div>
+
+    </div>
+  </div>
+</section>
+
+<!-- ════════════════ FOOTER ════════════════ -->
+<footer>
+  <strong>Spend<em>Smart</em></strong> — BTech CSE 1st Year Case Study &nbsp;·&nbsp;
+  Built with HTML5 · CSS3 · JavaScript · Python · C &nbsp;·&nbsp;
+  All data stored locally in your browser · No server required
+</footer>
+
+<script src="shared.js"></script>
+<script>
+  const obs = new IntersectionObserver(entries => {
+    entries.forEach(e => { if (e.isIntersecting) e.target.classList.add('visible'); });
+  }, { threshold: 0.1 });
+  document.querySelectorAll('.reveal').forEach(el => obs.observe(el));
+</script>
+</body>
+</html>
